@@ -67,3 +67,14 @@ export interface Spell {
     attackSaveIcon?: string;
     damageEffectIcon?: string;
 }
+
+export interface Counter {
+    css?: string;
+    min?: number;
+    max?: number;
+    default?: number;
+    value?: number;
+    decreaseText?: string;
+    increaseText?: string;
+    resetText?: string;
+}

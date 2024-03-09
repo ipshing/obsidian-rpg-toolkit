@@ -1,12 +1,81 @@
 body {
+    --counter-button-disabled-color: #738694;
+    --counter-button-disabled-bgcolor: #ced9e0;
+    --counter-decrease-button-bgcolor: #bc0f0f;
+    --counter-decrease-button-hover-bgcolor: #f15454;
+    --counter-button-increase-bgcolor: #2e994a;
+    --counter-button-increase-hover-bgcolor: #70d389;
+    --counter-button-reset-bgcolor: #0f5cbc;
+    --counter-button-reset-hover-bgcolor: #549bf1;
     --stat-block-color: #bc0f0f;
     --stat-block-divider: var(--stat-block-color);
     --stat-block-title-size: 22px;
     --stat-block-heading-font: "Roboto Condensed", Roboto, Helvetica, sans-serif;
     --stat-block-heading-size: 20px;
     --stat-block-body-size: 16px;
-
     --stat-block-frame-bar-height: 4px;
+}
+
+/***************************/
+/*        Counter          */
+/***************************/
+.rpg-counter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 6em;
+    margin-block-start: var(--p-spacing);
+    margin-block-end: var(--p-spacing);
+}
+.rpg-counter.large {
+    font-size: 2em;
+}
+.rpg-counter .value {
+    display: inline-block;
+    font-size: 2em;
+    font-weight: normal;
+    line-height: 1em;
+    text-align: center;
+}
+.rpg-counter .btn {
+    margin: 0;
+    padding: 0;
+    width: 1.2em;
+    height: 1.2em;
+    background-color: var(--interactive-hover);
+}
+.rpg-counter .btn:disabled {
+    background-color: var(--counter-button-disabled-bgcolor);
+    color: var(--counter-button-disabled-color);
+    cursor: auto;
+    opacity: 1;
+}
+.rpg-counter .decrease-btn {
+    font-size: 1em;
+    background-color: var(--counter-decrease-button-bgcolor);
+    color: var(--background-secondary);
+}
+.rpg-counter .decrease-btn:not(:disabled):hover {
+    background-color: var(--counter-decrease-button-hover-bgcolor);
+}
+.rpg-counter .increase-btn {
+    font-size: 1em;
+    background-color: var(--counter-button-increase-bgcolor);
+    color: var(--background-secondary);
+}
+.rpg-counter .increase-btn:not(:disabled):hover {
+    background-color: var(--counter-button-increase-hover-bgcolor);
+}
+.rpg-counter .reset-btn {
+    font-size: 0.625em;
+    width: 100%;
+    height: 1.75em;
+    background-color: var(--counter-button-reset-bgcolor);
+    color: var(--interactive-hover);
+}
+.rpg-counter .reset-btn:not(:disabled):hover {
+    background-color: var(--counter-button-reset-hover-bgcolor);
 }
 
 /***************************/

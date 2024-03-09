@@ -1,9 +1,10 @@
 import { MarkdownPostProcessorContext, MarkdownRenderer, Plugin, parseYaml } from "obsidian";
 import { valid, lt } from "semver";
-import { Monster, Spell, Vehicle } from "./models";
+import { Counter, Monster, Spell, Vehicle } from "./models";
 import MonsterStatBlock from "./views/monster-stat-block.svelte";
 import VehicleStatBlock from "./views/vehicle-stat-block.svelte";
 import SpellTable from "./views/spell-table.svelte";
+import CounterView from "./views/counter.svelte";
 
 interface RpgToolkitSettings {
     version: string;
@@ -48,6 +49,7 @@ export default class RpgToolkit extends Plugin {
         });
         this.registerMarkdownCodeBlockProcessor("vehicle-stat-block", this.processVehicle.bind(this));
         this.registerMarkdownCodeBlockProcessor("spell-table", this.processSpellTable.bind(this));
+        this.registerMarkdownCodeBlockProcessor("rpg-counter", this.processCounter.bind(this));
 
         console.log("RPG Toolkit plugin loaded");
     }
@@ -169,5 +171,92 @@ export default class RpgToolkit extends Plugin {
                 spell,
             },
         });
+    }
+
+    processCounter(markdown: string, element: HTMLElement, context: MarkdownPostProcessorContext) {
+        // Remove 'element' and load the view into the parent container
+        let dest = element.parentElement;
+        if (dest) {
+            dest.removeChild(element);
+        } else {
+            // Unless there is no parent, then load into 'element'
+            dest = element;
+        }
+
+        // Get properties from the markdown
+        const props: Counter = parseYaml(markdown);
+        // Verify properties
+        if (props.min != null && props.max != null && props.min > props.max) {
+            // Have to pick one: prioritize the max over the min
+            props.min = props.max - 1;
+        }
+        if (props.min != null && props.min > 0) {
+            props.default = props.min;
+        } else if (props.max != null && props.max < 0) {
+            props.default = props.max;
+        } else {
+            props.default = 0;
+        }
+        if (props.value == null) {
+            props.value = props.default;
+        }
+
+        // Put into Counter view
+        new CounterView({
+            target: dest,
+            props: {
+                props,
+                decreaseButtonClicked: async (e: MouseEvent) => {
+                    if (props.min == null || (props.value && props.value > props.min)) {
+                        await this.updateCounter(props.value! - 1, dest!, context);
+                    }
+                },
+                increaseButtonClicked: async (e: MouseEvent) => {
+                    if (props.max == null || (props.value && props.value < props.max)) {
+                        await this.updateCounter(props.value! + 1, dest!, context);
+                    }
+                },
+                resetButtonClicked: async (e: MouseEvent) => {
+                    await this.updateCounter(props.default!, dest!, context);
+                },
+            },
+        });
+    }
+
+    async updateCounter(newValue: number, element: HTMLElement, context: MarkdownPostProcessorContext) {
+        const filePath = typeof context == "string" ? context : context?.sourcePath ?? this.app.workspace.getActiveFile()?.path ?? "";
+        const sectionInfo = context.getSectionInfo(element);
+
+        const file = this.app.vault.getFileByPath(filePath);
+        if (file && sectionInfo) {
+            // Read in the file text
+            const contents = await this.app.vault.read(file);
+            const lines = contents.split(/\r?\n/);
+            // Check that start line lines up
+            if (!lines[sectionInfo.lineStart].startsWith("```rpg-counter")) return;
+
+            // Look for value line
+            let isDirty = false;
+            for (let i = sectionInfo.lineStart; i <= sectionInfo.lineEnd; i++) {
+                if (lines[i].startsWith("value:")) {
+                    // Replace value
+                    lines[i] = `value: ${newValue}`;
+
+                    isDirty = true;
+                }
+            }
+            if (!isDirty) {
+                // No "value:" line was found, need to add one
+                lines.splice(sectionInfo.lineEnd, 0, `value: ${newValue}`);
+
+                isDirty = true;
+            }
+
+            if (isDirty) {
+                // Write the contents back out
+                const updated = lines.join("\n");
+                this.app.vault.modify(file, updated);
+            }
+        }
     }
 }
