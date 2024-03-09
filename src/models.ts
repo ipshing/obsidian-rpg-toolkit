@@ -78,3 +78,17 @@ export interface Counter {
     increaseText?: string;
     resetText?: string;
 }
+
+export interface MapModel {
+    css?: string;
+    map: string;
+    caption?: string;
+    areas?: MapAreaModel[];
+}
+
+export interface MapAreaModel {
+    name: string;
+    // top, left, width, height (percentages)
+    coords: [number, number, number, number];
+    link: string;
+}

@@ -1,10 +1,11 @@
 import { MarkdownPostProcessorContext, MarkdownRenderer, Plugin, parseYaml } from "obsidian";
 import { valid, lt } from "semver";
-import { Counter, Monster, Spell, Vehicle } from "./models";
+import { Counter, Monster, Spell, Vehicle, MapModel } from "./models";
 import MonsterStatBlock from "./views/monster-stat-block.svelte";
 import VehicleStatBlock from "./views/vehicle-stat-block.svelte";
 import SpellTable from "./views/spell-table.svelte";
 import CounterView from "./views/counter.svelte";
+import ImageMap from "./views/image-map.svelte";
 
 interface RpgToolkitSettings {
     version: string;
@@ -50,6 +51,7 @@ export default class RpgToolkit extends Plugin {
         this.registerMarkdownCodeBlockProcessor("vehicle-stat-block", this.processVehicle.bind(this));
         this.registerMarkdownCodeBlockProcessor("spell-table", this.processSpellTable.bind(this));
         this.registerMarkdownCodeBlockProcessor("rpg-counter", this.processCounter.bind(this));
+        this.registerMarkdownCodeBlockProcessor("rpg-map", this.processMap.bind(this));
 
         console.log("RPG Toolkit plugin loaded");
     }
@@ -219,6 +221,30 @@ export default class RpgToolkit extends Plugin {
                 resetButtonClicked: async (e: MouseEvent) => {
                     await this.updateCounter(props.default!, dest!, context);
                 },
+            },
+        });
+    }
+
+    processMap(markdown: string, element: HTMLElement, context: MarkdownPostProcessorContext) {
+        const sourcePath = typeof context == "string" ? context : context?.sourcePath ?? this.app.workspace.getActiveFile()?.path ?? "";
+
+        // Remove 'element' and load the view into the parent container
+        let dest = element.parentElement;
+        if (dest) {
+            dest.removeChild(element);
+        } else {
+            // Unless there is no parent, then load into 'element'
+            dest = element;
+        }
+
+        const map: MapModel = parseYaml(markdown);
+
+        new ImageMap({
+            target: dest,
+            props: {
+                imageMap: map,
+                plugin: this,
+                sourcePath,
             },
         });
     }

@@ -103,6 +103,16 @@ img.rpg-icon,
 }
 
 /***************************/
+/*        Image Map        */
+/***************************/
+.rpg-map {
+    position: relative;
+}
+.rpg-map .map-area > div {
+    position: absolute;
+}
+
+/***************************/
 /*       Spell Table       */
 /***************************/
 .spell-table {
