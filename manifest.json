@@ -1,0 +1,11 @@
+{
+    "id": "rpg-toolkit",
+    "name": "RPG Toolkit",
+    "version": "1.0.0",
+    "minAppVersion": "1.0.0",
+    "description": "Tools to support running a TTRPG such as D&D.",
+    "author": "ipshing",
+    "authorUrl": "https://github.com/ipshing",
+    "fundingUrl": "https://ko-fi.com/ipshing",
+    "isDesktopOnly": false
+}
