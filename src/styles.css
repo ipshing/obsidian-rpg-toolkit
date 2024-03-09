@@ -10,6 +10,69 @@ body {
 }
 
 /***************************/
+/*          Icons          */
+/***************************/
+.ttrpg-icon {
+    display: inline-block;
+    position: relative;
+}
+.ttrpg-icon-large {
+    top: 0.09375em;
+}
+.ttrpg-icon-small {
+    top: 0.0625em;
+}
+img.ttrpg-icon,
+.ttrpg-icon svg,
+.popover.hover-popover img.ttrpg-icon,
+.popover.hover-popover .ttrpg-icon svg {
+    height: 0.85em;
+}
+.theme-dark img.ttrpg-icon,
+.theme-dark .ttrpg-icon svg {
+    filter: invert(0.85);
+}
+
+/***************************/
+/*       Spell Table       */
+/***************************/
+.spell-table {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.spell-table-property {
+    width: 25%;
+}
+/* Max out at 2 columns on smaller screens */
+@media (max-width: 400px) {
+    .spell-table-property {
+        width: 50%;
+    }
+}
+.spell-table-property-name {
+    font-size: 0.88888888em;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 10px 10px 0;
+    white-space: nowrap;
+}
+.spell-table-property:nth-child(n + 5) .spell-table-property-name {
+    padding: 15px 10px 0;
+}
+/* Change top padding starting at the 3rd property on smaller screens */
+@media (max-width: 400px) {
+    .spell-table-property:nth-child(n + 3) .spell-table-property-name {
+        padding: 15px 10px 0;
+    }
+}
+
+.spell-table-property-value {
+    padding: 0 10px 4px;
+}
+
+/***************************/
 /*       Stat Block        */
 /***************************/
 /* Set to 2 columns when there's enough space */

@@ -1,8 +1,9 @@
 import { MarkdownPostProcessorContext, MarkdownRenderer, Plugin, parseYaml } from "obsidian";
 import { valid, lt } from "semver";
-import { Monster, Vehicle } from "./models";
+import { Monster, Spell, Vehicle } from "./models";
 import MonsterStatBlock from "./views/monster-stat-block.svelte";
 import VehicleStatBlock from "./views/vehicle-stat-block.svelte";
+import SpellTable from "./views/spell-table.svelte";
 
 interface RpgToolkitSettings {
     version: string;
@@ -46,6 +47,7 @@ export default class RpgToolkit extends Plugin {
             }
         });
         this.registerMarkdownCodeBlockProcessor("vehicle-stat-block", this.processVehicle.bind(this));
+        this.registerMarkdownCodeBlockProcessor("spell-table", this.processSpellTable.bind(this));
 
         console.log("RPG Toolkit plugin loaded");
     }
@@ -143,6 +145,28 @@ export default class RpgToolkit extends Plugin {
                 vehicle,
                 plugin: this,
                 sourcePath,
+            },
+        });
+    }
+
+    processSpellTable(markdown: string, element: HTMLElement, context: MarkdownPostProcessorContext) {
+        // Remove 'element' and load the view into the parent container
+        let dest = element.parentElement;
+        if (dest) {
+            dest.removeChild(element);
+        } else {
+            // Unless there is no parent, then load into 'element'
+            dest = element;
+        }
+
+        // Parse the spell data
+        const spell: Spell = parseYaml(markdown);
+
+        // Put into SpellTable view
+        new SpellTable({
+            target: dest,
+            props: {
+                spell,
             },
         });
     }
