@@ -14,16 +14,16 @@ body {
 /***************************/
 /* Set to 2 columns when there's enough space */
 @media (min-width: 680px) {
-    .monster-stat-block {
+    :is(.monster-stat-block, .vehicle-stat-block) {
         column-count: 2;
     }
 }
 /* Except when in a popover */
-.popover .monster-stat-block {
+.popover:is(.monster-stat-block, .vehicle-stat-block) {
     column-count: 1;
 }
 /* Frame */
-.monster-stat-block {
+:is(.monster-stat-block, .vehicle-stat-block) {
     color: black;
     font-weight: normal;
     text-align: left;
@@ -42,8 +42,8 @@ body {
     background-position: top;
     background-size: cover;
 }
-.monster-stat-block::before,
-.monster-stat-block::after {
+:is(.monster-stat-block, .vehicle-stat-block)::before,
+:is(.monster-stat-block, .vehicle-stat-block)::after {
     content: "";
     background-image: var(--stat-block-frame-bar);
     background-size: 100% 100%;
@@ -53,10 +53,10 @@ body {
     left: -3px;
     right: -3px;
 }
-.monster-stat-block::before {
+:is(.monster-stat-block, .vehicle-stat-block)::before {
     top: -3px;
 }
-.monster-stat-block::after {
+:is(.monster-stat-block, .vehicle-stat-block)::after {
     bottom: -3px;
 }
 

@@ -1,7 +1,8 @@
 import { MarkdownPostProcessorContext, MarkdownRenderer, Plugin, parseYaml } from "obsidian";
 import { valid, lt } from "semver";
-import { Monster } from "./models";
+import { Monster, Vehicle } from "./models";
 import MonsterStatBlock from "./views/monster-stat-block.svelte";
+import VehicleStatBlock from "./views/vehicle-stat-block.svelte";
 
 interface RpgToolkitSettings {
     version: string;
@@ -44,6 +45,7 @@ export default class RpgToolkit extends Plugin {
                 }
             }
         });
+        this.registerMarkdownCodeBlockProcessor("vehicle-stat-block", this.processVehicle.bind(this));
 
         console.log("RPG Toolkit plugin loaded");
     }
@@ -113,6 +115,32 @@ export default class RpgToolkit extends Plugin {
             target: dest,
             props: {
                 monster,
+                plugin: this,
+                sourcePath,
+            },
+        });
+    }
+
+    processVehicle(markdown: string, element: HTMLElement, context: MarkdownPostProcessorContext) {
+        const sourcePath = typeof context == "string" ? context : context?.sourcePath ?? this.app.workspace.getActiveFile()?.path ?? "";
+
+        // Remove 'element' and load the view into the parent container
+        let dest = element.parentElement;
+        if (dest) {
+            dest.removeChild(element);
+        } else {
+            // Unless there is no parent, then load into 'element'
+            dest = element;
+        }
+
+        // Parse the stat block
+        const vehicle: Vehicle = parseYaml(markdown);
+
+        // Create the view and load into 'dest' container
+        new VehicleStatBlock({
+            target: dest,
+            props: {
+                vehicle,
                 plugin: this,
                 sourcePath,
             },

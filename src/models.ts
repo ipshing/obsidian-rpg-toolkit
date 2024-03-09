@@ -28,3 +28,25 @@ export interface Monster {
     image?: string;
     imageFirst: boolean;
 }
+
+export interface Vehicle {
+    css?: string;
+    name: string;
+    size: string;
+    dimensions: string;
+    creatureCapacity: string;
+    cargoCapacity: string;
+    travelPace: string;
+    abilityScores: [number, number, number, number, number, number];
+    damageImmunities?: string;
+    conditionImmunities?: string;
+    actions?: string[];
+    components?: VehicleComponent[];
+    image?: string;
+    imageFirst: boolean;
+}
+
+export interface VehicleComponent {
+    name: string;
+    attributes: string[];
+}
