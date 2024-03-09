@@ -12,24 +12,24 @@ body {
 /***************************/
 /*          Icons          */
 /***************************/
-.ttrpg-icon {
+.rpg-icon {
     display: inline-block;
     position: relative;
 }
-.ttrpg-icon-large {
+.rpg-icon-large {
     top: 0.09375em;
 }
-.ttrpg-icon-small {
+.rpg-icon-small {
     top: 0.0625em;
 }
-img.ttrpg-icon,
-.ttrpg-icon svg,
-.popover.hover-popover img.ttrpg-icon,
-.popover.hover-popover .ttrpg-icon svg {
+img.rpg-icon,
+.rpg-icon svg,
+.popover.hover-popover img.rpg-icon,
+.popover.hover-popover .rpg-icon svg {
     height: 0.85em;
 }
-.theme-dark img.ttrpg-icon,
-.theme-dark .ttrpg-icon svg {
+.theme-dark img.rpg-icon,
+.theme-dark .rpg-icon svg {
     filter: invert(0.85);
 }
 

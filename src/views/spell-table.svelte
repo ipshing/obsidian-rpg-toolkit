@@ -15,7 +15,7 @@
         <div class="spell-table-property-value">
             {spell.castingTime}
             {#if spell.isRitual}
-                <div class="ttrpg-icon ttrpg-icon-small">
+                <div class="rpg-icon rpg-icon-small">
                     {@html ICONS["ritual"]}
                 </div>
             {/if}
@@ -26,7 +26,7 @@
         <div class="spell-table-property-value">
             {spell.rangeArea}
             {#if spell.rangeAreaIcon && ICONS[spell.rangeAreaIcon]}
-                <div class="ttrpg-icon ttrpg-icon-small">
+                <div class="rpg-icon rpg-icon-small">
                     {@html ICONS[spell.rangeAreaIcon]}
                 </div>
             {/if}
@@ -41,7 +41,7 @@
         <div class="spell-table-property-value">
             {spell.duration}
             {#if spell.needsConcentration}
-                <div class="ttrpg-icon ttrpg-icon-small">
+                <div class="rpg-icon rpg-icon-small">
                     {@html ICONS["concentration"]}
                 </div>
             {/if}
@@ -55,7 +55,7 @@
         <div class="spell-table-property-name">Attack/Save</div>
         <div class="spell-table-property-value">
             {#if spell.attackSaveIcon && ICONS[spell.attackSaveIcon]}
-                <div class="ttrpg-icon ttrpg-icon-small">
+                <div class="rpg-icon rpg-icon-small">
                     {@html ICONS[spell.attackSaveIcon]}
                 </div>
             {/if}
@@ -66,7 +66,7 @@
         <div class="spell-table-property-name">Damage/Effect</div>
         <div class="spell-table-property-value">
             {#if spell.damageEffectIcon && ICONS[spell.damageEffectIcon]}
-                <div class="ttrpg-icon ttrpg-icon-small">
+                <div class="rpg-icon rpg-icon-small">
                     {@html ICONS[spell.damageEffectIcon]}
                 </div>
             {/if}

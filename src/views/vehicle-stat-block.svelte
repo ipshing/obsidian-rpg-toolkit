@@ -1,11 +1,11 @@
 <script lang="ts">
-    import TtrpgToolkit from "src/main";
+    import RpgToolkit from "src/main";
     import AbilityScore from "./ability-score.svelte";
     import StatBlockBody from "./stat-block-body.svelte";
     import { Vehicle } from "src/models";
 
     export let vehicle: Vehicle;
-    export let plugin: TtrpgToolkit;
+    export let plugin: RpgToolkit;
     export let sourcePath: string;
 
     function generateCss(css: string | undefined): string {
