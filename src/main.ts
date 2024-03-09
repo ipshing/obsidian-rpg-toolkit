@@ -24,6 +24,26 @@ export default class RpgToolkit extends Plugin {
 
         // Register processors
         this.registerMarkdownCodeBlockProcessor("monster-stat-block", this.processMonster.bind(this));
+        this.registerMarkdownPostProcessor((container, context) => {
+            const child = container.querySelector(".callout[data-callout='monster-stat-block'") as HTMLElement;
+            if (child) {
+                const info = context.getSectionInfo(container);
+                if (info) {
+                    // Convert text to lines
+                    const lines = info.text.split(/\r?\n/);
+                    // Skip first line and remove leading '>' characters
+                    let yaml = "";
+                    for (let i = info.lineStart + 1; i <= info.lineEnd; i++) {
+                        const line = lines[i].replace(/^>+/, "").trim();
+                        if (line.length > 0) {
+                            yaml += line + "\n";
+                        }
+                    }
+                    // Process stat block
+                    this.processMonster(yaml, child, context);
+                }
+            }
+        });
 
         console.log("RPG Toolkit plugin loaded");
     }
