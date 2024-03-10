@@ -39,13 +39,15 @@
 </script>
 
 <figure class={generateCss(imageMap.css).trim()} bind:this={figure}>
-    {@html plugin.convertMarkdown(imageMap.map, sourcePath)}
+    <div class="image-map">
+        {@html plugin.convertMarkdown(imageMap.map, sourcePath)}
+        {#if imageMap.areas}
+            {#each imageMap.areas as area}
+                {@html generateAreaLink(area)}
+            {/each}
+        {/if}
+    </div>
     {#if imageMap.caption}
         <figcaption>{imageMap.caption}</figcaption>
-    {/if}
-    {#if imageMap.areas}
-        {#each imageMap.areas as area}
-            {@html generateAreaLink(area)}
-        {/each}
     {/if}
 </figure>

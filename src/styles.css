@@ -105,10 +105,13 @@ img.rpg-icon,
 /***************************/
 /*        Image Map        */
 /***************************/
-.rpg-map {
+.rpg-map > .image-map {
     position: relative;
 }
-.rpg-map .map-area > div {
+.rpg-map > .image-map img {
+    display: block;
+}
+.rpg-map > .image-map > .map-area > div {
     position: absolute;
 }
 
