@@ -54,18 +54,22 @@ export interface VehicleComponent {
 export interface Spell {
     level: string;
     castingTime: string;
-    rangeArea: string;
+    range: string;
+    area?: string;
+    areaIcon?: string;
     components: string;
     duration: string;
     school: string;
-    attackSave: string;
-    damageEffect: string;
-
+    attack?: string;
+    attackIcon?: string;
+    save?: string;
+    damage?: string;
+    damageIcon?: string;
+    condition?: string;
+    conditionIcon?: string;
+    effect?: string;
     isRitual: boolean;
     needsConcentration: boolean;
-    rangeAreaIcon?: string;
-    attackSaveIcon?: string;
-    damageEffectIcon?: string;
 }
 
 export interface Counter {

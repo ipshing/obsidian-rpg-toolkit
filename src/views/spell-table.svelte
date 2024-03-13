@@ -24,10 +24,13 @@
     <div class="spell-table-property">
         <div class="spell-table-property-name">Range/Area</div>
         <div class="spell-table-property-value">
-            {spell.rangeArea}
-            {#if spell.rangeAreaIcon && ICONS[spell.rangeAreaIcon]}
+            {spell.range}
+            {#if spell.area}
+                / {spell.area}
+            {/if}
+            {#if spell.areaIcon && ICONS[spell.areaIcon]}
                 <div class="rpg-icon rpg-icon-small">
-                    {@html ICONS[spell.rangeAreaIcon]}
+                    {@html ICONS[spell.areaIcon]}
                 </div>
             {/if}
         </div>
@@ -54,23 +57,39 @@
     <div class="spell-table-property">
         <div class="spell-table-property-name">Attack/Save</div>
         <div class="spell-table-property-value">
-            {#if spell.attackSaveIcon && ICONS[spell.attackSaveIcon]}
+            {#if spell.attackIcon && ICONS[spell.attackIcon]}
                 <div class="rpg-icon rpg-icon-small">
-                    {@html ICONS[spell.attackSaveIcon]}
+                    {@html ICONS[spell.attackIcon]}
                 </div>
             {/if}
-            {spell.attackSave}
+            {#if spell.attack}
+                {spell.attack}
+            {/if}
+            {#if spell.save}
+                {spell.save}
+            {/if}
         </div>
     </div>
     <div class="spell-table-property">
         <div class="spell-table-property-name">Damage/Effect</div>
         <div class="spell-table-property-value">
-            {#if spell.damageEffectIcon && ICONS[spell.damageEffectIcon]}
-                <div class="rpg-icon rpg-icon-small">
-                    {@html ICONS[spell.damageEffectIcon]}
-                </div>
+            {#if spell.damage}
+                {#if spell.damageIcon && ICONS[spell.damageIcon]}
+                    <div class="rpg-icon rpg-icon-small">
+                        {@html ICONS[spell.damageIcon]}
+                    </div>
+                {/if}
+                {spell.damage}
+            {:else if spell.condition}
+                {#if spell.conditionIcon && ICONS[spell.conditionIcon]}
+                    <div class="rpg-icon rpg-icon-small">
+                        {@html ICONS[spell.conditionIcon]}
+                    </div>
+                {/if}
+                {spell.condition}
+            {:else if spell.effect}
+                {spell.effect}
             {/if}
-            {spell.damageEffect}
         </div>
     </div>
 </div>
