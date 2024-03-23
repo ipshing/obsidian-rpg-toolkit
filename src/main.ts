@@ -125,6 +125,14 @@ export default class RpgToolkit extends Plugin {
                 sourcePath,
             },
         });
+
+        // Locate embed containers. They should be loaded in by now.
+        const mx = this.app.plugins.getPlugin("markdown-extended");
+        if (mx) {
+            dest.querySelectorAll(".internal-embed.image-embed.is-loaded").forEach((container) => {
+                mx.renderEmbeddedImage(container);
+            });
+        }
     }
 
     processVehicle(markdown: string, element: HTMLElement, context: MarkdownPostProcessorContext) {
