@@ -1,6 +1,6 @@
 {
     "name": "rpg-toolkit",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Tools to support running a TTRPG such as D&D.",
     "main": "main.js",
     "scripts": {
