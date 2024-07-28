@@ -14,7 +14,7 @@
 </script>
 
 <div class={generateCss(props.css).trim()}>
-    <button class="btn decrease-btn" disabled={props.min != null && props.value && props.value <= props.min} on:click={decreaseButtonClicked}>
+    <button class="btn decrease-btn" disabled={props.min != null && props.value != null && props.value <= props.min} on:click={decreaseButtonClicked}>
         {#if props.decreaseText}
             {@html props.decreaseText}
         {:else}
@@ -22,7 +22,7 @@
         {/if}
     </button>
     <div class="value">{props.value}</div>
-    <button class="btn increase-btn" disabled={props.max != null && props.value && props.value >= props.max} on:click={increaseButtonClicked}>
+    <button class="btn increase-btn" disabled={props.max != null && props.value != null && props.value >= props.max} on:click={increaseButtonClicked}>
         {#if props.increaseText}
             {@html props.increaseText}
         {:else}
