@@ -214,15 +214,17 @@ export default class RpgToolkit extends Plugin {
             // Have to pick one: prioritize the max over the min
             props.min = props.max - 1;
         }
-        if (props.min != null && props.min > 0) {
-            props.default = props.min;
-        } else if (props.max != null && props.max < 0) {
-            props.default = props.max;
-        } else {
-            props.default = 0;
-        }
-        if (props.value == null) {
-            props.value = props.default;
+        if (!props.default) {
+            if (props.min != null && props.min > 0) {
+                props.default = props.min;
+            } else if (props.max != null && props.max < 0) {
+                props.default = props.max;
+            } else {
+                props.default = 0;
+            }
+            if (props.value == null) {
+                props.value = props.default;
+            }
         }
 
         // Put into Counter view
@@ -231,12 +233,12 @@ export default class RpgToolkit extends Plugin {
             props: {
                 props,
                 decreaseButtonClicked: async (e: MouseEvent) => {
-                    if (props.min == null || (props.value && props.value > props.min)) {
+                    if (props.min == null || (props.value != null && props.value > props.min)) {
                         await this.updateCounter(props.value! - 1, dest!, context);
                     }
                 },
                 increaseButtonClicked: async (e: MouseEvent) => {
-                    if (props.max == null || (props.value && props.value < props.max)) {
+                    if (props.max == null || (props.value != null && props.value < props.max)) {
                         await this.updateCounter(props.value! + 1, dest!, context);
                     }
                 },
