@@ -16,7 +16,8 @@ export interface Monster {
     conditionImmunities?: string;
     senses?: string;
     languages?: string;
-    challenge?: string;
+    challenge?: number;
+    xp: number;
     proficiencyBonus?: string;
     feats?: string[];
     spells?: string[];

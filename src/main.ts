@@ -1,4 +1,4 @@
-import { MarkdownPostProcessorContext, MarkdownRenderer, Plugin, parseYaml } from "obsidian";
+import { MarkdownPostProcessorContext, MarkdownRenderer, Plugin, parseYaml, stringifyYaml } from "obsidian";
 import { valid, lt } from "semver";
 import { Counter, Monster, Spell, Vehicle, MapModel } from "./models";
 import MonsterStatBlock from "./views/monster-stat-block.svelte";
@@ -86,11 +86,32 @@ export default class RpgToolkit extends Plugin {
      * @param markdown The markdown source code
      * @param sourcePath The normalized path of this markdown file, used to resolve relative internal links
      */
-    convertMarkdown(markdown: string, sourcePath: string): string {
+    convertMarkdown(markdown: unknown, sourcePath: string): string {
+        // Sanitize the markdown
+        let str = "";
+        if (typeof markdown === "number") {
+            // Assume challenge rating, switch to fraction
+            switch (markdown) {
+                case 0.125:
+                    str = "1/8";
+                    break;
+                case 0.25:
+                    str = "1/4";
+                    break;
+                case 0.5:
+                    str = "1/2";
+                    break;
+                default:
+                    str = markdown.toString();
+            }
+        } else {
+            str = String(markdown);
+        }
+
         // Create temporary container
         const container = createDiv();
         // Convert the markdown to html
-        MarkdownRenderer.render(this.app, markdown, container, sourcePath, this);
+        MarkdownRenderer.render(this.app, str, container, sourcePath, this);
         // Get the child element...
         if (container.childElementCount === 1) {
             const child = container.children[0];
@@ -111,6 +132,17 @@ export default class RpgToolkit extends Plugin {
         } else {
             // Unless there is no parent, then load into 'element'
             dest = element;
+        }
+
+        // If markdown is empty, check the frontmatter
+        if (!markdown) {
+            const file = this.app.vault.getFileByPath(sourcePath);
+            if (file) {
+                const cache = this.app.metadataCache.getFileCache(file);
+                if (cache && cache.frontmatter) {
+                    markdown = stringifyYaml(cache.frontmatter);
+                }
+            }
         }
 
         // Parse the stat block

@@ -119,12 +119,17 @@
                     <span class="stat-block-data-value">{@html plugin.convertMarkdown(monster.languages, sourcePath)}</span>
                 </div>
             {/if}
-            {#if monster.challenge || monster.proficiencyBonus}
+            {#if monster.challenge || monster.xp || monster.proficiencyBonus}
                 <div class="stat-block-data-last">
                     {#if monster.challenge}
                         <div class="stat-block-data">
                             <span class="stat-block-data-label">Challenge</span>
-                            <span class="stat-block-data-value">{@html plugin.convertMarkdown(monster.challenge, sourcePath)}</span>
+                            <span class="stat-block-data-value">
+                                {@html plugin.convertMarkdown(monster.challenge, sourcePath)}
+                                {#if monster.xp}
+                                    ({@html plugin.convertMarkdown(monster.xp, sourcePath)} XP)
+                                {/if}
+                            </span>
                         </div>
                     {/if}
                     {#if monster.proficiencyBonus}
