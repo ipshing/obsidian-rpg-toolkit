@@ -387,6 +387,8 @@ img.rpg-icon,
     background: revert;
     border: none;
     break-inside: avoid;
+    margin-block-start: 10px;
+    margin-block-end: 10px;
 }
 .monster-stat-block-2024 .ability-scores table.abilities-saves :is(th, td) {
     border: 0;
