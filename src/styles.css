@@ -340,6 +340,8 @@ img.rpg-icon,
     outline: 1px solid #a7a3a0;
     outline-offset: -4px;
     columns: 384px 2;
+    margin-block-start: 24px;
+    margin-block-end: 24px;
 }
 .monster-stat-block-2024 :is(h2, h3, h4, h5) {
     color: var(--stat-block-color);
