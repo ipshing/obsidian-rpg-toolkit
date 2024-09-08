@@ -14,6 +14,7 @@ body {
     --stat-block-heading-size: 20px;
     --stat-block-body-size: 16px;
     --stat-block-frame-bar-height: 4px;
+    --stat-block-p-spacing: 10px;
 }
 
 /***************************/
@@ -325,6 +326,135 @@ img.rpg-icon,
     border-radius: 8px;
     max-height: 600px;
     max-width: 100%;
+}
+
+/* PHB 2024 Version */
+.monster-stat-block-2024 {
+    border: 1px solid #a7a3a0;
+    padding: 10px;
+    position: relative;
+    box-shadow: 0 5px 8px 0 var(--stat-block-shadow, #aaa);
+    background-position: top;
+    background: var(--stat-block-bg-override, #f6f3ee);
+    border-radius: 8px;
+    outline: 1px solid #a7a3a0;
+    outline-offset: -4px;
+    columns: 384px 2;
+}
+.monster-stat-block-2024 :is(h2, h3, h4, h5) {
+    color: var(--stat-block-color);
+    font-family: "Roboto Condensed", var(--font-text);
+    font-size: var(--stat-block-title-size);
+    font-weight: var(--bold-weight);
+    text-transform: uppercase;
+}
+.monster-stat-block-2024 :is(h2, h3, h4, h5)::after {
+    content: "";
+    display: block;
+    width: 100%;
+    margin: 2px auto 8px;
+    height: 1px;
+    background: var(--monster-header-underline, #7a3c2f);
+    column-span: all;
+}
+.monster-stat-block-2024 p {
+    font-size: var(--stat-block-body-size);
+    break-inside: avoid;
+    line-height: 1.4;
+    margin-block-start: var(--stat-block-p-spacing);
+    margin-block-end: 0;
+}
+.monster-stat-block-2024 p:first-of-type {
+    margin-block-start: 0;
+    font-style: italic;
+    opacity: 0.8;
+}
+.monster-stat-block-2024 p:first-of-type + p {
+    --stat-block-p-spacing: 16px;
+}
+.monster-stat-block-2024 p:nth-of-type(2) strong + strong {
+    margin-inline-start: 30px;
+}
+.monster-stat-block-2024 .ability-scores {
+    display: flex;
+    gap: 10px;
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves {
+    --theme-table-row-color: transparent;
+    flex: 1 1 auto;
+    background: revert;
+    border: none;
+    break-inside: avoid;
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves :is(th, td) {
+    border: 0;
+    text-align: center;
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves thead tr {
+    height: revert;
+    min-height: 45px;
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves thead tr th {
+    padding: 5px 2px 0;
+    vertical-align: bottom;
+    text-transform: uppercase;
+    font-weight: var(--font-medium);
+    font-size: 15px;
+    min-width: revert;
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves tbody tr {
+    background-color: var(--theme-table-row-color, #fdfdfd);
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves tbody tr:hover {
+    background-color: var(--stats-hover);
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves tbody tr th {
+    text-transform: uppercase;
+    font-weight: var(--bold-weight);
+    font-size: 16px;
+    padding: 1px 1px 1px 6px;
+    min-width: revert;
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves tbody tr td {
+    min-width: revert;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves tbody tr :is(th, td) {
+    transition: 0.3s;
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves tbody tr :nth-child(-n + 3) {
+    background-color: var(--stats-score);
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves tbody tr:hover :nth-child(-n + 3) {
+    background-color: var(--stats-score-hover);
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves tbody tr :nth-child(n + 3) {
+    background-color: var(--stats-mods);
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves tbody tr:hover :nth-child(n + 3) {
+    background-color: var(--stats-mods-hover);
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves.physical {
+    --stats-score: #ede6d9;
+    --stats-mods: #ded4cc;
+    --stats-score-hover: rgba(153, 127, 109, 0.49019607843137253);
+    --stats-mods-hover: rgba(153, 109, 114, 0.49019607843137253);
+}
+.monster-stat-block-2024 .ability-scores table.abilities-saves.mental {
+    --stats-score: #d8dad1;
+    --stats-mods: #d0caca;
+    --stats-score-hover: rgba(109, 141, 153, 0.490196078431);
+    --stats-mods-hover: rgba(117, 109, 153, 0.49019607843137253);
+}
+.monster-stat-block-2024 .monster-header {
+    padding-top: 4px;
+    font-weight: 500;
+    letter-spacing: 0.35px;
+    color: var(--monster-header-color, #5b160c);
+    font-size: var(--monster-trait-header-size, 18px);
+    font-family: var(--monster-trait-header-font, "Roboto Condensed", var(--font-text));
+    border-bottom: 2px solid var(--monster-header-underline, #7a3c2f);
 }
 
 /***************************/

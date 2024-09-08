@@ -1,7 +1,8 @@
 import { MarkdownPostProcessorContext, MarkdownRenderer, Plugin, parseYaml, stringifyYaml } from "obsidian";
 import { valid, lt } from "semver";
 import { Counter, Monster, Spell, Vehicle, MapModel } from "./models";
-import MonsterStatBlock from "./views/monster-stat-block.svelte";
+import MonsterStatBlock2014 from "./views/monster-stat-block.svelte";
+import MonsterStatBlock2024 from "./views/monster-stat-block-2024.svelte";
 import VehicleStatBlock from "./views/vehicle-stat-block.svelte";
 import SpellTable from "./views/spell-table.svelte";
 import CounterView from "./views/counter.svelte";
@@ -36,11 +37,22 @@ export default class RpgToolkit extends Plugin {
                     // Convert text to lines
                     const lines = info.text.split(/\r?\n/);
                     // Skip first line and remove leading '>' characters
+                    let inStatBlock = false;
                     let yaml = "";
-                    for (let i = info.lineStart + 1; i <= info.lineEnd; i++) {
-                        const line = lines[i].replace(/^>+/, "").trim();
-                        if (line.length > 0) {
-                            yaml += line + "\n";
+                    for (let i = info.lineStart; i <= info.lineEnd; i++) {
+                        if (lines[i].match(/^[>\s]*\[!monster-stat-block]/i)) {
+                            inStatBlock = true;
+                            continue;
+                        }
+                        if (inStatBlock) {
+                            if (lines[i].match(/^[>\s]*$/)) {
+                                inStatBlock = false;
+                                continue;
+                            }
+                            const line = lines[i].replace(/^>+/, "").trim();
+                            if (line.length > 0) {
+                                yaml += line + "\n";
+                            }
                         }
                     }
                     // Process stat block
@@ -149,14 +161,28 @@ export default class RpgToolkit extends Plugin {
         const monster: Monster = parseYaml(markdown);
 
         // Create the view and load into 'dest' container
-        new MonsterStatBlock({
-            target: dest,
-            props: {
-                monster,
-                plugin: this,
-                sourcePath,
-            },
-        });
+        if (!monster.version || monster.version == "2014") {
+            new MonsterStatBlock2014({
+                target: dest,
+                props: {
+                    monster,
+                    plugin: this,
+                    sourcePath,
+                },
+            });
+        } else if (monster.version == "2024") {
+            new MonsterStatBlock2024({
+                target: dest,
+                props: {
+                    monster,
+                    plugin: this,
+                    sourcePath,
+                },
+            });
+        } else {
+            // Error
+            dest.createDiv("Unable to parse stat block");
+        }
 
         // Try to find image in original element
         const image = element.find("span.internal-embed");

@@ -1,10 +1,12 @@
 export interface Monster {
     css?: string;
+    version?: string;
     name: string;
     size: string;
     creatureType: string;
     alignment: string;
     armorClass?: string;
+    initiative?: string;
     hitPoints?: string;
     speed?: string;
     abilityScores?: [number, number, number, number, number, number];
@@ -17,7 +19,7 @@ export interface Monster {
     senses?: string;
     languages?: string;
     challenge?: number;
-    xp: number;
+    xp?: number;
     proficiencyBonus?: string;
     feats?: string[];
     spells?: string[];
